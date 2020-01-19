@@ -1,0 +1,10 @@
+Flask==1.1.1
+Flask-RESTful==0.3.7
+Flask-SQLAlchemy==2.4.1
+psycopg2-binary==2.8.4
+Flask-Testing==0.7.1
+flask-marshmallow==0.10.1
+marshmallow-sqlalchemy==0.21.0
+gunicorn==19.9.0
+coverage==4.5.3
+flake8===3.7.7
