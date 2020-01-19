@@ -10,7 +10,11 @@ class User(db.Model):
     username = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-    created_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_date = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
 
     def __init__(self, username, email):
         self.username = username
@@ -30,7 +34,9 @@ class User(db.Model):
 
     @classmethod
     def find_existing_user(cls, username: str, email: str) -> "User":
-        return cls.query.filter((cls.username == username) | (cls.email == email)).first()
+        return cls.query.filter(
+            (cls.username == username) | (cls.email == email)
+        ).first()
 
     def save(self):
         db.session.add(self)

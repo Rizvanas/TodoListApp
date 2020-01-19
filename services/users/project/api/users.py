@@ -63,7 +63,12 @@ class Users(Resource):
         if not user:
             return {'message': user_not_found_message}, 404
 
-        return {'message': user_found_message, 'user': user_schema.dump(user)}, 200
+        return (
+            {
+                'message': user_found_message,
+                'user': user_schema.dump(user)
+            },
+            200)
 
 
 api.add_resource(UsersPing, '/users/ping')
