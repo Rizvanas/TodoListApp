@@ -15,6 +15,7 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - COMPOSE_CONVERT_WINDOWS_PATHS=1
+      - JWT_SECRET_KEY=my_precious
     depends_on:
       - users-db
 

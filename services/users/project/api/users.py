@@ -1,10 +1,12 @@
 # services/users/project/api/users.py
 
-from flask import Blueprint, request
+from flask import Blueprint
 from flask_restful import Resource, Api
 from project.api.models import User
 from project.api.schemas import UserSchema
-
+from flask_jwt_extended import (
+    jwt_required,
+)
 
 users_blueprint = Blueprint('users', __name__)
 api = Api(users_blueprint)
@@ -21,7 +23,8 @@ user_found_message = "User was successfully found."
 
 
 class UsersPing(Resource):
-    def get(self):
+    @classmethod
+    def get(cls):
         return {
             'status': 'success',
             'message': 'pong!'
@@ -29,7 +32,8 @@ class UsersPing(Resource):
 
 
 class UsersList(Resource):
-    def get(self):
+    @classmethod
+    def get(cls):
         '''Get full list of users'''
         users = users_list_schema.dump(User.get_all())
         if not users:
@@ -37,27 +41,13 @@ class UsersList(Resource):
 
         return {'users': users}, 200
 
-    def post(self):
-        '''Add new user'''
-        errors = user_schema.validate(request.get_json())
-        if errors:
-            return {'errors': errors}, 422
-
-        user_request = user_schema.load(request.get_json())
-        username = user_request.username
-        email = user_request.email
-
-        if User.find_existing_user(username, email):
-            return {'message': user_exists_message.format(email)}, 409
-
-        user_request.save()
-        return {'message': user_created_message}, 201
-
 
 class Users(Resource):
     '''Get user by id'''
 
-    def get(self, user_id: int):
+    @classmethod
+    @jwt_required
+    def get(cls, user_id: int):
         user = User.find_by_id(user_id)
 
         if not user:
