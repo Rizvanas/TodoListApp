@@ -42,13 +42,21 @@ def test():
 @cli.command('seed_db')
 def seed_db():
     '''Command seeds the database'''
-    User(username='rizvan', email='rizvan@mail.com').save()
-    User(username='chalilovas', email='chalilovas@mail.com').save()
+    User(
+        username='rizvan',
+        email='rizvan@mail.com',
+        password='rch123'
+    ).save()
+    User(
+        username='chalilovas',
+        email='chalilovas@mail.com',
+        password='rch321'
+    ).save()
 
 
 @cli.command()
 def cov():
-    '''Runs all tests and check code coverage.'''
+    '''Runs all tests and checks code coverage.'''
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
